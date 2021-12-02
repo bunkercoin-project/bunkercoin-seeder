@@ -1,0 +1,27 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+  # install dependencies
+    - name: boost
+      run: sudo apt-get install build-essential libboost-all-dev libssl-dev
+  # build project
+    - name: make
+      run: make
+  # Create artifacts
+    - name: Upload binaries
+      uses: actions/upload-artifact@v2
+      with:
+        name: dnsseed
+        path: dnsseed
