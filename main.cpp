@@ -343,7 +343,7 @@ extern "C" void* ThreadStats(void*) {
 }
 
 //TODO: We don't have any other seeds yet. Add them in next revision.
-static const string mainnet_seeds[] = {"seed.bunkercoin.xyz", "bunkernode69.ddns.net", "45.147.228.129",""};
+static const string mainnet_seeds[] = { "bunkernode69.ddns.net", "45.147.228.129",""};
 static const string testnet_seeds[] = {""};
 static const string *seeds = mainnet_seeds;
 
