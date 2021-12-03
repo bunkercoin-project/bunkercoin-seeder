@@ -15,12 +15,6 @@
 #include <string>
 #include "uint256.h"
 
-extern bool fTestNet;
-static inline unsigned short GetDefaultPort(const bool testnet = fTestNet)
-{
-    return testnet ? 44556 : 22556;
-}
-
 //
 // Message header
 //  (4) message start
@@ -28,7 +22,8 @@ static inline unsigned short GetDefaultPort(const bool testnet = fTestNet)
 //  (4) size
 //  (4) checksum
 
-extern unsigned char pchMessageStart[4];
+extern int cfg_caddr_time_version;
+extern unsigned char cfg_message_start[4];
 
 class CMessageHeader
 {
@@ -41,17 +36,16 @@ class CMessageHeader
 
         IMPLEMENT_SERIALIZE
             (
-             READWRITE(FLATDATA(pchMessageStart));
+             READWRITE(FLATDATA(cfg_message_start));
              READWRITE(FLATDATA(pchCommand));
              READWRITE(nMessageSize);
-             if (nVersion >= 209)
              READWRITE(nChecksum);
             )
 
     // TODO: make private (improves encapsulation)
     public:
         enum { COMMAND_SIZE=12 };
-        char pchMessageStart[sizeof(::pchMessageStart)];
+        char cfg_message_start[sizeof(::cfg_message_start)];
         char pchCommand[COMMAND_SIZE];
         unsigned int nMessageSize;
         unsigned int nChecksum;
@@ -60,6 +54,10 @@ class CMessageHeader
 enum
 {
     NODE_NETWORK = (1 << 0),
+    NODE_BLOOM = (1 << 2),
+    NODE_WITNESS = (1 << 3),
+    NODE_COMPACT_FILTERS = (1 << 6),
+    NODE_NETWORK_LIMITED = (1 << 10),
 };
 
 class CAddress : public CService
@@ -78,7 +76,7 @@ class CAddress : public CService
                  pthis->Init();
              if (nType & SER_DISK)
              READWRITE(nVersion);
-             if ((nType & SER_DISK) || (nVersion >= 31402 && !(nType & SER_GETHASH)))
+             if ((nType & SER_DISK) || (nVersion >= cfg_caddr_time_version && !(nType & SER_GETHASH)))
              READWRITE(nTime);
              READWRITE(nServices);
              READWRITE(*pip);
