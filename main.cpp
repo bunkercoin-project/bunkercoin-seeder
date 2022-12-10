@@ -31,7 +31,7 @@ public:
   CDnsSeedOpts() : nThreads(96), nDnsThreads(4), nPort(53), mbox(NULL), ns(NULL), host(NULL), tor(NULL), fUseTestNet(false), fWipeBan(false), fWipeIgnore(false) {}
 
   void ParseCommandLine(int argc, char **argv) {
-    static const char *help = "Bunkercoin-seeder\n"
+    static const char *help = "bunkercoin-seeder\n"
                               "Usage: %s -h <host> -n <ns> [-m <mbox>] [-t <threads>] [-p <port>]\n"
                               "\n"
                               "Options:\n"
@@ -343,7 +343,7 @@ extern "C" void* ThreadStats(void*) {
 }
 
 //TODO: We don't have any other seeds yet. Add them in next revision.
-static const string mainnet_seeds[] = {"bunkernode69.ddns.net", "45.147.228.129",""};
+static const string mainnet_seeds[] = {"209.126.7.47", "85.214.85.73","84.87.9.249", "127.0.0.1"};
 static const string testnet_seeds[] = {""};
 static const string *seeds = mainnet_seeds;
 
